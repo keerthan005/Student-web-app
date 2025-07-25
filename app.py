@@ -31,7 +31,9 @@ def home():
                 writing_score
             ]
 
-            prediction = model.predict([input_features])[0]
+            pred_class = model.predict([input_features])[0]
+            prediction = label_encoder.inverse_transform([pred_class])[0]
+
 
         except Exception as e:
             prediction = f"Error: {str(e)}"
