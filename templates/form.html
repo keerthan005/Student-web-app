@@ -1,71 +1,37 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Math Score Prediction</title>
-    <style>
-        body { font-family: Arial, sans-serif; margin: 40px; background: #f9f9f9; }
-        form { background: #fff; padding: 20px; border-radius: 8px; max-width: 400px; margin: auto; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
-        input, select { width: 100%; padding: 8px; margin: 10px 0; }
-        input[type=submit] { background: #007BFF; color: white; border: none; cursor: pointer; }
-        .result { text-align: center; font-weight: bold; margin-top: 20px; }
-    </style>
+    <title>Student Performance Prediction</title>
 </head>
 <body>
+    <h1>Predict Math Score Category</h1>
+    <form method="post">
+        <label>Gender (0 = female, 1 = male):</label>
+        <input type="number" name="gender" required><br>
 
-<h2 style="text-align:center;">Predict Math Score</h2>
+        <label>Race/Ethnicity (e.g., 0 to 4):</label>
+        <input type="number" name="race_ethnicity" required><br>
 
-<form method="POST" action="/">
-    <label>Gender:</label>
-    <select name="gender" required>
-        <option value="0">Female</option>
-        <option value="1">Male</option>
-    </select>
+        <label>Parental Level of Education (0 to 5):</label>
+        <input type="number" name="parental_level_of_education" required><br>
 
-    <label>Race/Ethnicity:</label>
-    <select name="race_ethnicity" required>
-        <option value="0">Group A</option>
-        <option value="1">Group B</option>
-        <option value="2">Group C</option>
-        <option value="3">Group D</option>
-        <option value="4">Group E</option>
-    </select>
+        <label>Lunch (0 = free/reduced, 1 = standard):</label>
+        <input type="number" name="lunch" required><br>
 
-    <label>Parental Level of Education:</label>
-    <select name="parental_level_of_education" required>
-        <option value="0">High School</option>
-        <option value="1">Some High School</option>
-        <option value="2">Associate's Degree</option>
-        <option value="3">Bachelor's Degree</option>
-        <option value="4">Master's Degree</option>
-        <option value="5">Some College</option>
-    </select>
+        <label>Test Preparation Course (0 = none, 1 = completed):</label>
+        <input type="number" name="test_preparation_course" required><br>
 
-    <label>Lunch:</label>
-    <select name="lunch" required>
-        <option value="0">Free/Reduced</option>
-        <option value="1">Standard</option>
-    </select>
+        <label>Reading Score (standardized):</label>
+        <input type="number" step="0.01" name="reading_score" required><br>
 
-    <label>Test Preparation Course:</label>
-    <select name="test_preparation_course" required>
-        <option value="0">None</option>
-        <option value="1">Completed</option>
-    </select>
+        <label>Writing Score (standardized):</label>
+        <input type="number" step="0.01" name="writing_score" required><br>
 
-    <label>Reading Score:</label>
-    <input type="number" name="reading_score" min="0" max="100" required>
+        <button type="submit">Predict</button>
+    </form>
 
-    <label>Writing Score:</label>
-    <input type="number" name="writing_score" min="0" max="100" required>
-
-    <input type="submit" value="Predict">
-</form>
-
-{% if prediction is not none %}
-    <div class="result">
-        Predicted Math Score: {{ prediction }}
-    </div>
-{% endif %}
-
+    {% if prediction %}
+        <h2>Predicted Math Score Category: {{ prediction }}</h2>
+    {% endif %}
 </body>
 </html>
