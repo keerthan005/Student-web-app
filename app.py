@@ -3,7 +3,7 @@ import pickle
 
 app = Flask(__name__)
 
-# Load the model at startup
+# Load the trained model once at startup
 with open('model.pkl', 'rb') as f:
     model = pickle.load(f)
 
@@ -13,26 +13,40 @@ def home():
     if request.method == 'POST':
         try:
             gender = int(request.form['gender'])
+            race_ethnicity = int(request.form['race_ethnicity'])  # Added
             parental_level = int(request.form['parental_level_of_education'])
+            lunch = int(request.form['lunch'])  # Added
             test_prep = int(request.form['test_preparation_course'])
             reading_score = float(request.form['reading_score'])
             writing_score = float(request.form['writing_score'])
 
-            input_features = [gender, parental_level, test_prep, reading_score, writing_score]
+            # Final 7 input features
+            input_features = [
+                gender,
+                race_ethnicity,
+                parental_level,
+                lunch,
+                test_prep,
+                reading_score,
+                writing_score
+            ]
+
             prediction = model.predict([input_features])[0]
+
         except Exception as e:
             prediction = f"Error: {str(e)}"
-    
+
     return render_template('form.html', prediction=prediction)
 
 @app.route('/predict', methods=['POST'])
 def api_predict():
     try:
         data = request.get_json(force=True)
-
         input_features = [
             data['gender'],
+            data['race_ethnicity'],
             data['parental_level_of_education'],
+            data['lunch'],
             data['test_preparation_course'],
             data['reading_score'],
             data['writing_score']
